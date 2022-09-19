@@ -1,11 +1,10 @@
 import './css/styles.css';
 import './css/flex-box-img.css';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { NewsApiService } from './js/newApiService';
 import photoCardTpl from './template/photo-card.hbs';
 import { ResetDefaultSettings } from './js/defaultSettings';
 
-refs = {
+const refs = {
   searchForm: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
