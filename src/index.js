@@ -1,7 +1,9 @@
 import './css/styles.css';
+import './css/flex-box-img.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { NewsApiService } from './js/newApiService';
 import photoCardTpl from './template/photo-card.hbs';
+import { ResetDefaultSettings } from './js/defaultSettings';
 
 refs = {
   searchForm: document.querySelector('.search-form'),
@@ -9,22 +11,29 @@ refs = {
   loadMoreBtn: document.querySelector('.load-more'),
 };
 
-refs.loadMoreBtn.style.display = 'none';
 const newsApiService = new NewsApiService();
+const defaultSettings = new ResetDefaultSettings();
+defaultSettings.hiddenButton();
 
 refs.searchForm.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 function onSearch(e) {
   e.preventDefault();
-
   newsApiService.query = e.currentTarget.elements.searchQuery.value;
+
+  newsApiService.resetPage();
+  refs.searchForm.reset();
+
   newsApiService.fetchHits().then(hits => enumerationFetches(hits));
-  refs.loadMoreBtn.style.display = '';
+  defaultSettings.showButton();
+  defaultSettings.clearHitsContainer();
 }
 
 function onLoadMore() {
+  defaultSettings.hiddenButton();
   newsApiService.fetchHits().then(hits => enumerationFetches(hits));
+  defaultSettings.showButton();
 }
 
 function enumerationFetches(hits) {
