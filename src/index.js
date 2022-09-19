@@ -23,14 +23,14 @@ function onSearch(e) {
   refs.searchForm.reset();
 
   newsApiService.fetchHits().then(hits => enumerationFetches(hits));
-  showButton;
+  showButton();
   clearHitsContainer();
 }
 
 function onLoadMore() {
   hiddenButton();
   newsApiService.fetchHits().then(hits => enumerationFetches(hits));
-  showButton;
+  showButton();
 }
 
 function enumerationFetches(hits) {
