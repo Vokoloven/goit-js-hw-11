@@ -30,11 +30,11 @@ function onSearch(e) {
   refs.searchForm.reset();
 
   newsApiService.fetchHits().then(data => {
+    checkingForError(data.totalHits, data.hits.length, minusPerPage);
     enumerationFetches(data.hits);
     scrollDown();
   });
 
-  showButton();
   clearHitsContainer();
 }
 
@@ -44,18 +44,13 @@ function onLoadMore() {
   minusPerPage = newsApiService.perPage;
 
   newsApiService.fetchHits().then(data => {
-    if (minusPerPage > data.totalHits) {
-      Notify.warning(
-        'We are sorry, but you have reached the end of search results.'
-      );
-      hiddenButton();
-    }
+    checkingForError(data.totalHits, data.hits.length, minusPerPage);
 
     enumerationFetches(data.hits);
     scrollDown();
   });
 
-  showButton();
+  // showButton();
 }
 
 function enumerationFetches(hits) {
@@ -89,4 +84,21 @@ function scrollDown() {
     top: cardHeight * 2,
     behavior: 'smooth',
   });
+}
+
+function checkingForError(totalHits, hitsLength, minusPerPage) {
+  if (hitsLength === 0) {
+    Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+    hiddenButton();
+  } else if (minusPerPage > totalHits) {
+    Notify.warning(
+      'We are sorry, but you have reached the end of search results.'
+    );
+    hiddenButton();
+  } else {
+    showButton();
+    Notify.success(`Hooray! We found ${totalHits} images.`);
+  }
 }

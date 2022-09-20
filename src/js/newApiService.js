@@ -1,4 +1,5 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 const axios = require('axios').default;
 
 export class NewsApiService {
@@ -15,14 +16,6 @@ export class NewsApiService {
     try {
       const resp = await axios.get(URL);
       const data = await resp.data;
-
-      if (data.hits.length === 0) {
-        Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-      } else {
-        Notify.success(`Hooray! We found ${data.totalHits} images.`);
-      }
 
       this.incrementPage();
       this.incrementPerPage();
