@@ -43,8 +43,6 @@ function onLoadMore() {
 
   minusPerPage = newsApiService.perPage;
 
-  console.log(minusPerPage);
-
   newsApiService.fetchHits().then(data => {
     checkingForError(data.totalHits, data.hits.length, minusPerPage);
 
