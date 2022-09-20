@@ -30,7 +30,6 @@ function onSearch(e) {
   refs.searchForm.reset();
 
   newsApiService.fetchHits().then(data => {
-    Notify.success(`Hooray! We found ${data.totalHits} images.`);
     enumerationFetches(data.hits);
     scrollDown();
   });
@@ -51,7 +50,7 @@ function onLoadMore() {
       );
       hiddenButton();
     }
-    Notify.success(`Hooray! We found ${data.totalHits} images.`);
+
     enumerationFetches(data.hits);
     scrollDown();
   });

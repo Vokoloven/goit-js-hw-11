@@ -20,7 +20,10 @@ export class NewsApiService {
         Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
+      } else {
+        Notify.success(`Hooray! We found ${data.totalHits} images.`);
       }
+
       this.incrementPage();
       this.incrementPerPage();
 
