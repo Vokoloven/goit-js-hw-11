@@ -30,7 +30,7 @@ function onSearch(e) {
   refs.searchForm.reset();
 
   newsApiService.fetchHits().then(data => {
-    checkingForError(data.totalHits, data.hits.length, minusPerPage);
+    checkingForError(data.totalHits, data.hits.length, newsApiService.perPage);
     enumerationFetches(data.hits);
     scrollDown();
   });
@@ -42,6 +42,8 @@ function onLoadMore() {
   hiddenButton();
 
   minusPerPage = newsApiService.perPage;
+
+  console.log(minusPerPage);
 
   newsApiService.fetchHits().then(data => {
     checkingForError(data.totalHits, data.hits.length, minusPerPage);
