@@ -4,6 +4,7 @@ const axios = require('axios').default;
 export class NewsApiService {
   constructor() {
     this.searchQuery = '';
+    this.perPage = 40;
     this.page = 1;
   }
 
@@ -21,8 +22,9 @@ export class NewsApiService {
         );
       }
       this.incrementPage();
+      this.incrementPerPage();
 
-      return data.hits;
+      return data;
     } catch (error) {
       console.error(error);
     }
@@ -34,6 +36,14 @@ export class NewsApiService {
 
   resetPage() {
     this.page = 1;
+  }
+
+  incrementPerPage() {
+    this.perPage += 40;
+  }
+
+  resetPerPage() {
+    this.perPage = 40;
   }
 
   get query() {
