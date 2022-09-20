@@ -51,8 +51,6 @@ function onLoadMore() {
     enumerationFetches(data.hits);
     scrollDown();
   });
-
-  // showButton();
 }
 
 function enumerationFetches(hits) {
