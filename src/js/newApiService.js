@@ -1,5 +1,3 @@
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 const axios = require('axios').default;
 
 export class NewsApiService {
@@ -22,7 +20,7 @@ export class NewsApiService {
 
       return data;
     } catch (error) {
-      console.error(error);
+      error = new Error().stack;
     }
   }
 

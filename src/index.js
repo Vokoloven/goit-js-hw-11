@@ -5,12 +5,18 @@ import photoCardTpl from './template/photo-card.hbs';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
 import '../node_modules/simplelightbox/dist/simple-lightbox.min.css';
+import InfiniteScroll from 'infinite-scroll';
 
 const refs = {
   searchForm: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
 };
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captions: true,
+  captionDelay: 250,
+});
 
 let minusPerPage = 0;
 
@@ -25,15 +31,15 @@ function onSearch(e) {
 
   newsApiService.query = e.currentTarget.elements.searchQuery.value.trim();
 
+  if (newsApiService.query === '') {
+    return;
+  }
+
   newsApiService.resetPage();
   newsApiService.resetPerPage();
   refs.searchForm.reset();
 
-  newsApiService.fetchHits().then(data => {
-    checkingForError(data.totalHits, data.hits.length, newsApiService.perPage);
-    enumerationFetches(data.hits);
-    scrollDown();
-  });
+  getAllHits();
 
   clearHitsContainer();
 }
@@ -41,24 +47,16 @@ function onSearch(e) {
 function onLoadMore() {
   hiddenButton();
 
-  minusPerPage = newsApiService.perPage;
-
-  newsApiService.fetchHits().then(data => {
-    checkingForError(data.totalHits, data.hits.length, minusPerPage);
-
-    enumerationFetches(data.hits);
-    scrollDown();
-  });
+  getAllHits();
 }
 
 function enumerationFetches(hits) {
-  for (let i = 0; i < hits.length; i += 1) {
-    refs.gallery.insertAdjacentHTML('beforeend', photoCardTpl(hits[i]));
-  }
-  const lightbox = new SimpleLightbox('.gallery a', {
-    captions: true,
-    captionDelay: 250,
-  });
+  const getHitsMaped = hits => {
+    return hits.map(hit => photoCardTpl(hit)).join('');
+  };
+
+  refs.gallery.insertAdjacentHTML('beforeend', getHitsMaped(hits));
+
   lightbox.refresh();
 }
 
@@ -82,6 +80,16 @@ function scrollDown() {
     top: cardHeight * 2,
     behavior: 'smooth',
   });
+}
+
+async function getAllHits() {
+  minusPerPage = newsApiService.perPage;
+  const data = await newsApiService.fetchHits();
+
+  checkingForError(data.totalHits, data.hits.length, minusPerPage);
+
+  enumerationFetches(data.hits);
+  scrollDown();
 }
 
 function checkingForError(totalHits, hitsLength, minusPerPage) {
