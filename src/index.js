@@ -64,6 +64,17 @@ function hiddenButton() {
   refs.loadMoreBtn.style.display = 'none';
 }
 
+async function getAllHits() {
+  minusPerPage = newsApiService.perPage;
+  const data = await newsApiService.fetchHits();
+
+  checkingForError(data.totalHits, data.hits.length, minusPerPage);
+  enumerationFetches(data.hits);
+  if (data.hits.length !== 0) {
+    scrollDown();
+  }
+}
+
 function showButton() {
   refs.loadMoreBtn.style.display = '';
 }
@@ -80,16 +91,6 @@ function scrollDown() {
     top: cardHeight * 2,
     behavior: 'smooth',
   });
-}
-
-async function getAllHits() {
-  minusPerPage = newsApiService.perPage;
-  const data = await newsApiService.fetchHits();
-
-  checkingForError(data.totalHits, data.hits.length, minusPerPage);
-
-  enumerationFetches(data.hits);
-  scrollDown();
 }
 
 function checkingForError(totalHits, hitsLength, minusPerPage) {

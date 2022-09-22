@@ -8,11 +8,19 @@ export class NewsApiService {
   }
 
   async fetchHits() {
-    const KEY = '30004460-7b1cd4f1171d7a16584b31c7f';
-    const URL = `https://pixabay.com/api/?key=${KEY}&q=${this.query}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=40`;
+    const params = {
+      key: '30004460-7b1cd4f1171d7a16584b31c7f',
+      url: 'https://pixabay.com/api/',
+      q: this.query,
+      image_type: 'photo',
+      orientation: 'horizontal',
+      safesearch: true,
+      page: this.page,
+      per_page: 40,
+    };
 
     try {
-      const resp = await axios.get(URL);
+      const resp = await axios.get(params.url, { params });
       const data = await resp.data;
 
       this.incrementPage();
