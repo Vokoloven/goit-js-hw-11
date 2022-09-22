@@ -60,10 +60,6 @@ function enumerationFetches(hits) {
   lightbox.refresh();
 }
 
-function hiddenButton() {
-  refs.loadMoreBtn.style.display = 'none';
-}
-
 async function getAllHits() {
   minusPerPage = newsApiService.perPage;
   const data = await newsApiService.fetchHits();
@@ -91,6 +87,10 @@ function scrollDown() {
     top: cardHeight * 2,
     behavior: 'smooth',
   });
+}
+
+function hiddenButton() {
+  refs.loadMoreBtn.style.display = 'none';
 }
 
 function checkingForError(totalHits, hitsLength, minusPerPage) {

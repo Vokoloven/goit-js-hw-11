@@ -9,8 +9,8 @@ export class NewsApiService {
 
   async fetchHits() {
     const params = {
-      key: '30004460-7b1cd4f1171d7a16584b31c7f',
       url: 'https://pixabay.com/api/',
+      key: '30004460-7b1cd4f1171d7a16584b31c7f',
       q: this.query,
       image_type: 'photo',
       orientation: 'horizontal',
