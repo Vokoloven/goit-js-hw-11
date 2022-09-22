@@ -13,12 +13,13 @@ const refs = {
   loadMoreBtn: document.querySelector('.load-more'),
 };
 
+let elem = document.querySelector('.container');
+let minusPerPage = 0;
+
 const lightbox = new SimpleLightbox('.gallery a', {
   captions: true,
   captionDelay: 250,
 });
-
-let minusPerPage = 0;
 
 const newsApiService = new NewsApiService();
 hiddenButton();
